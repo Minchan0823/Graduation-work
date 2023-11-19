@@ -1,0 +1,70 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOLOv8 Disease Classification</title>
+</head>
+<body>
+    <h1>YOLOv8 Disease Classification</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" id="file-input" accept="image/*" />
+        <button type="button" onclick="uploadImage()">Upload Image</button>
+    </form>
+    <div id="result">
+        <!-- 결과가 여기에 표시됩니다. -->
+    </div>
+    <div id="uploaded-image">
+        <!-- 업로드한 이미지가 여기에 표시됩니다. -->
+    </div>
+    <script>
+        function uploadImage() {
+            var fileInput = document.getElementById('file-input');
+            var file = fileInput.files[0];
+
+            var formData = new FormData();
+            formData.append('file', file);
+
+            fetch('http://localhost:5000/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 결과를 처리하고 웹 페이지에 표시하는 코드 추가
+                console.log(data.result);
+
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = ''; // 이전 결과를 지우고 새로운 결과 표시
+
+                if (Array.isArray(data.result)) {
+                    data.result.forEach(obj => {
+                        var p = document.createElement('p');
+                        p.innerHTML = `${obj.class}: ${obj.confidence.toFixed(2)}`;
+                        resultDiv.appendChild(p);
+                    });
+                } else {
+                    // 만약 결과가 배열이 아니라면 문자열로 표시
+                    var p = document.createElement('p');
+                    p.innerHTML = data.result;
+                    resultDiv.appendChild(p);
+                }
+
+                // 업로드한 이미지를 표시하는 코드 추가
+                var uploadedImageDiv = document.getElementById('uploaded-image');
+                uploadedImageDiv.innerHTML = '';
+                var uploadedImage = document.createElement('img');
+                uploadedImage.src = URL.createObjectURL(file);
+                uploadedImage.alt = 'Uploaded Image';
+                uploadedImage.style.maxWidth = '100%';
+                uploadedImageDiv.appendChild(uploadedImage);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
