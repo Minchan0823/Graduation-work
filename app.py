@@ -10,8 +10,7 @@ CORS(app)
 
 def predict_image(file):
     try:
-        # model = YOLO('C:/Users/Minchan/vscode-workplace/SkinCare/20231114data2.pt')
-        model = YOLO('C:/Users/SuYeon/vscode_workplace/Graduation-work/1114data2.pt')
+        model = YOLO('../1114data2.pt')
         image = Image.open(file)
         results = model(image)
         img_array = results[0].orig_img
@@ -66,3 +65,4 @@ def upload():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
