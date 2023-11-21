@@ -1,24 +1,25 @@
-<!-- public/index.html -->
-<!-- ssss -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YOLOv8 Disease Classification</title>
+    <title>YOLOv8 Skin Disease Prediction</title>
 </head>
 <body>
-    <h1>YOLOv8 Disease Classification</h1>
+    <h1>YOLOv8 Skin Disease Prediction</h1>
     <form id="upload-form" enctype="multipart/form-data">
         <input type="file" id="file-input" accept="image/*" />
         <button type="button" onclick="uploadImage()">Upload Image</button>
     </form>
-    <div id="result">
-        <!-- 결과가 여기에 표시됩니다. -->
-    </div>
     <div id="uploaded-image">
         <!-- 업로드한 이미지가 여기에 표시됩니다. -->
+    </div>
+    <div id="predicted-image">
+        <!-- 예측된 이미지가 여기에 표시됩니다. -->
+    </div>
+    <div id="result">
+        <!-- 예측 결과가 여기에 표시됩니다. -->
     </div>
     <script>
         function uploadImage() {
@@ -34,11 +35,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                // 결과를 처리하고 웹 페이지에 표시하는 코드 추가
                 console.log(data.result);
 
                 var resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = ''; // 이전 결과를 지우고 새로운 결과 표시
+                resultDiv.innerHTML = '';
 
                 if (Array.isArray(data.result)) {
                     data.result.forEach(obj => {
@@ -47,13 +47,11 @@
                         resultDiv.appendChild(p);
                     });
                 } else {
-                    // 만약 결과가 배열이 아니라면 문자열로 표시
                     var p = document.createElement('p');
                     p.innerHTML = data.result;
                     resultDiv.appendChild(p);
                 }
 
-                // 업로드한 이미지를 표시하는 코드 추가
                 var uploadedImageDiv = document.getElementById('uploaded-image');
                 uploadedImageDiv.innerHTML = '';
                 var uploadedImage = document.createElement('img');
@@ -61,6 +59,15 @@
                 uploadedImage.alt = 'Uploaded Image';
                 uploadedImage.style.maxWidth = '100%';
                 uploadedImageDiv.appendChild(uploadedImage);
+
+                // 예측된 이미지를 표시하는 코드 추가
+                var predictedImageDiv = document.getElementById('predicted-image');
+                predictedImageDiv.innerHTML = '';
+                var predictedImage = document.createElement('img');
+                predictedImage.src = 'data:image/png;base64,' + data.result[0].image; // Base64로 인코딩된 이미지
+                predictedImage.alt = 'Predicted Image';
+                predictedImage.style.maxWidth = '100%';
+                predictedImageDiv.appendChild(predictedImage);
             })
             .catch(error => {
                 console.error('Error:', error);
