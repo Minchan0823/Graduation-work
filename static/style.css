@@ -1,0 +1,94 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+}
+
+#file-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+#image-preview {
+    display: none;
+}
+#file-input {
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+}
+#file-label span {
+    font-size: 50px;
+    line-height: 1.5;
+}
+
+#file-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 300px;
+    border: 3px solid #000;
+    border-radius: 10px;
+    font-size: 50px;
+    text-align: center;
+    line-height: 300px;
+    cursor: pointer;
+}
+
+#file-label:before {
+    display: block;
+}
+
+.check_button {
+    margin-top: 10px;
+    width: 310px;
+    height: 50px;
+    box-sizing: border-box;
+    border: 2px solid #000;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.main_title {
+    text-align: center;
+}
+
+#button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+.buttonbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#refresh-button,
+#plus-button {
+    border: 0;
+    outline: none;
+    width: 100px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    font-size: 20px;
+    margin: 30px;
+    padding: 10px;
+    cursor: pointer;
+}

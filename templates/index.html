@@ -4,75 +4,133 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
     <title>YOLOv8 Skin Disease Prediction</title>
 </head>
 <body>
-    <h1>YOLOv8 Skin Disease Prediction</h1>
-    <form id="upload-form" enctype="multipart/form-data">
-        <input type="file" id="file-input" accept="image/*" />
-        <button type="button" onclick="uploadImage()">Upload Image</button>
-    </form>
-    <div id="uploaded-image">
-        <!-- 업로드한 이미지가 여기에 표시됩니다. -->
-    </div>
-    <div id="predicted-image">
-        <!-- 예측된 이미지가 여기에 표시됩니다. -->
-    </div>
-    <div id="result">
-        <!-- 예측 결과가 여기에 표시됩니다. -->
-    </div>
-    <script>
-        function uploadImage() {
-            var fileInput = document.getElementById('file-input');
-            var file = fileInput.files[0];
+    <div class="container">
+        <form id="upload-form" enctype="multipart/form-data">
+            <h1 class="main_title">YOLOv8 피부 질병 예측</h1>
+            <div id="file-container">
+                <label id="file-label" for="file-input">
+                    <input type="file" id="file-input" accept="image/*" onchange="previewImage()">
+                </label>
+            </div>
+            <div id="image-preview">
+                <!-- 선택된 이미지가 여기에 표시됩니다. -->
+            </div>
+            <div id="button-container">
+                <button type="button" class="check_button" onclick="uploadImage()">검사하기</button>
+            </div>
+        </form>
+        <div id="result-container" style="display: none;">
+            <div id="predicted-image">
+                <!-- 예측된 이미지가 여기에 표시됩니다. -->
+            </div>
+            <div id="result">
+                <!-- 예측 결과가 여기에 표시됩니다. -->
+            </div>
+        </div>
+        <div class="buttonbox">
+            <div id="refresh-button" style="display: none;">
+                <a onClick="window.location.reload()" class="refresh-button">
+                    <!-- <img src="/templates/refresh1.png" sizes="24px"/> -->
+                    새로고침
+                </a>
+                   
+            </div>
+            <div id="plus-button" style="display: none;">
+                <a onClick="window.location.reload()" class="plus-button">
+                    +
+                </a> 
+            </div>
+        </div>
+        <script>
+            function previewImage() {
+                var fileInput = document.getElementById('file-input');
+                var fileContainer = document.getElementById('file-container');
+                var imagePreview = document.getElementById('image-preview');
+                imagePreview.innerHTML = '';
 
-            var formData = new FormData();
-            formData.append('file', file);
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
 
-            fetch('http://localhost:5000/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.result);
+                    reader.onload = function (e) {
+                        var image = document.createElement('img');
+                        image.src = e.target.result;
+                        image.alt = 'Selected Image';
+                        image.style.maxWidth = '100%';
+                        imagePreview.appendChild(image);
+                        fileContainer.style.display = 'none';
+                        imagePreview.style.display = 'block';
+                    };
 
-                var resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = '';
-
-                if (Array.isArray(data.result)) {
-                    data.result.forEach(obj => {
-                        var p = document.createElement('p');
-                        p.innerHTML = `${obj.class}: ${obj.confidence.toFixed(2)}`;
-                        resultDiv.appendChild(p);
-                    });
-                } else {
-                    var p = document.createElement('p');
-                    p.innerHTML = data.result;
-                    resultDiv.appendChild(p);
+                    reader.readAsDataURL(fileInput.files[0]);
                 }
+            }
 
-                var uploadedImageDiv = document.getElementById('uploaded-image');
-                uploadedImageDiv.innerHTML = '';
-                var uploadedImage = document.createElement('img');
-                uploadedImage.src = URL.createObjectURL(file);
-                uploadedImage.alt = 'Uploaded Image';
-                uploadedImage.style.maxWidth = '100%';
-                uploadedImageDiv.appendChild(uploadedImage);
+            function uploadImage() {
+                var fileInput = document.getElementById('file-input');
+                var imagePreview = document.getElementById('image-preview');
+                var buttonContainer = document.getElementById('button-container');
+                var resultContainer = document.getElementById('result-container');
+                var refreshButton = document.getElementById('refresh-button');
+                var plusButton = document.getElementById('plus-button');
 
-                // 예측된 이미지를 표시하는 코드 추가
-                var predictedImageDiv = document.getElementById('predicted-image');
-                predictedImageDiv.innerHTML = '';
-                var predictedImage = document.createElement('img');
-                predictedImage.src = 'data:image/png;base64,' + data.result[0].image; // Base64로 인코딩된 이미지
-                predictedImage.alt = 'Predicted Image';
-                predictedImage.style.maxWidth = '100%';
-                predictedImageDiv.appendChild(predictedImage);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    </script>
+                imagePreview.style.display = 'none';
+                buttonContainer.style.display = 'none';
+                refreshButton.style.display = 'none';
+                plusButton.style.display = 'none';
+
+                var file = fileInput.files[0];
+
+                var formData = new FormData();
+                formData.append('file', file);
+
+                fetch('http://localhost:5000/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.result);
+
+                    var predictedImageDiv = document.getElementById('predicted-image');
+                    predictedImageDiv.innerHTML = '';
+                    var predictedImage = document.createElement('img');
+                    predictedImage.src = 'data:image/png;base64,' + data.result[0].image;
+                    predictedImage.alt = 'Predicted Image';
+                    predictedImage.style.maxWidth = '100%';
+                    predictedImageDiv.appendChild(predictedImage);
+
+                    var resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = '';
+
+                    if (Array.isArray(data.result)) {
+                        data.result.forEach(obj => {
+                            var p = document.createElement('p');
+                            p.innerHTML = `${obj.class}: ${obj.confidence*100}%`;
+                            resultDiv.appendChild(p);
+                        });
+                    } else {
+                        var p = document.createElement('p');
+                        p.innerHTML = data.result;
+                        resultDiv.appendChild(p);
+                    }
+
+                    resultContainer.style.display = 'block';
+                    refreshButton.style.display = 'block';
+                    plusButton.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+
+            function refreshPage() {
+                location.reload();
+            }
+        </script>
+    </div>
 </body>
 </html>

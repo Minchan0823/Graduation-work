@@ -7,7 +7,7 @@ from io import BytesIO
 import base64
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 CORS(app)
 
 app.static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
@@ -32,7 +32,26 @@ def predict_image(file):
             class_id = int(bndbox[5])
             class_name = names[class_id]
 
-            text = f"{class_name}-{round(conf, 2)}"
+            if class_name == '0' :
+                name = '여드름'
+            elif class_name == '1' :
+                name = '모공각화증'
+            elif class_name == '2' :
+                name = '습진'
+            elif class_name == '3' :
+                name = '일반 피부'
+            elif class_name == '4' :
+                name = '대상포진'
+            elif class_name == '5' :
+                name = '건선'
+            elif class_name == '6' :
+                name = '백선증'
+            elif class_name == '7' :
+                name = '사마귀'
+            else:
+                name = '에러'
+
+            text = f"{class_name}-{round(conf, 2)*100}%"
             print(text)
             cv2.rectangle(img_array, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
             cv2.putText(img_array, text, (xmin, ymin - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
@@ -43,7 +62,7 @@ def predict_image(file):
 
             predictions.append({
                 'image': img_base64,
-                'class': class_name,
+                'class': name,
                 'confidence': round(conf, 2),
                 'box': {'xmin': xmin, 'ymin': ymin, 'xmax': xmax, 'ymax': ymax}
             })
