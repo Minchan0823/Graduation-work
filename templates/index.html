@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/static/style.css">
-    <title>YOLOv8 Skin Disease Prediction</title>
+    <title>Skin Homes</title>
 </head>
 <body>
     <div class="container">
@@ -31,6 +31,9 @@
             </div>
             <div id="result">
                 <!-- 예측 결과가 여기에 표시됩니다. -->
+            </div>
+            <div id="explanation-box">
+                <!-- 설명란 -->
             </div>
         </div>
         <div class="buttonbox">
@@ -61,7 +64,7 @@
                         var image = document.createElement('img');
                         image.src = e.target.result;
                         image.alt = 'Selected Image';
-                        image.style.maxWidth = '100%';
+                        image.style.maxWidth = '300px';
                         imagePreview.appendChild(image);
                         fileContainer.style.display = 'none';
                         imagePreview.style.display = 'block';
@@ -102,22 +105,36 @@
                     var predictedImage = document.createElement('img');
                     predictedImage.src = 'data:image/png;base64,' + data.result[0].image;
                     predictedImage.alt = 'Predicted Image';
-                    predictedImage.style.maxWidth = '100%';
+                    predictedImage.style.maxWidth = '300px';
                     predictedImageDiv.appendChild(predictedImage);
 
                     var resultDiv = document.getElementById('result');
                     resultDiv.innerHTML = '';
-
+                    
+                    var explanDiv = document.getElementById('explanation-box');
+                    explanDiv.innerHTML = '';
                     if (Array.isArray(data.result)) {
                         data.result.forEach(obj => {
                             var p = document.createElement('p');
-                            p.innerHTML = `${obj.class}: ${obj.confidence*100}%`;
+                            p.innerHTML = ` - ${obj.class}: ${obj.confidence*100}%`;
                             resultDiv.appendChild(p);
                         });
                     } else {
                         var p = document.createElement('p');
                         p.innerHTML = data.result;
                         resultDiv.appendChild(p);
+                    }
+
+                    if (Array.isArray(data.result) && data.result.length > 0) {
+                        var p = document.createElement('p');
+                        if(data.result[0].class=='여드름'){
+                            p.innerHTML = `털 피지선 샘 단위의 만성 염증질환으로 면포(모낭 속에 고여 딱딱해진 피지), 구진(1cm 미만 크기의 솟아 오른 피부병변), 고름물집, 결절, 거짓낭 등 다양한 피부 변화가 나타나며, 이에 따른 후유증으로 오목한 흉터 또는 확대된 흉터를 남기기도 한다. 피지선이 모여 있는 얼굴, 목, 가슴 등에 많이 발생하며 털을 만드는 모낭에 붙어있는 피지선에 염증이 생기는 질환을 말한다.`;
+                        }
+                        explanDiv.appendChild(p);
+                    } else {
+                        var p = document.createElement('p');
+                        p.innerHTML = 'No results';
+                        explanDiv.appendChild(p);
                     }
 
                     resultContainer.style.display = 'block';

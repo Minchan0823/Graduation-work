@@ -116,6 +116,7 @@ body {
     margin-top: 20px;
 }
 .buttonbox {
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -129,7 +130,37 @@ body {
     border: 2px solid rgb(20, 150, 89)454;
     border-radius: 10px;
     font-size: 20px;
-    margin: 30px;
+    margin: auto;
     padding: 10px;
     cursor: pointer;
+}
+#result-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#result {
+    margin: auto;
+    margin-top: 20px;
+    width: 300px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid #000;
+    border-radius: 10px;
+}
+
+#explanation-box{
+    margin: auto;
+    margin-top: 20px;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid #000;
+    border-radius: 10px;
 }
