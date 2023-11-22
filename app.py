@@ -7,7 +7,9 @@ from io import BytesIO
 import base64
 import os
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+template_dir = script_dir
+app = Flask(__name__, static_folder='static', static_url_path='/static', template_folder=template_dir)
 CORS(app)
 
 app.static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
