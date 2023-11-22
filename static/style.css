@@ -122,12 +122,26 @@ body {
     justify-content: center;
 }
 
-#refresh-button,
+#refresh-button {
+    border: 0;
+    outline: none;
+    width: 100px;
+    border: 4px solid #F1B4BB;
+    background-color: #1F4172;
+    color:#F1B4BB;
+    border-radius: 10px;
+    font-size: 20px;
+    margin: auto;
+    padding: 10px;
+    cursor: pointer;
+}
 #plus-button {
     border: 0;
     outline: none;
     width: 100px;
-    border: 2px solid rgb(20, 150, 89)454;
+    border: 4px solid #F1B4BB;
+    background-color: #1F4172;
+    color:#F1B4BB;
     border-radius: 10px;
     font-size: 20px;
     margin: auto;
@@ -150,6 +164,7 @@ body {
     text-align: center;
     border: 4px solid #F1B4BB;
     background-color: #1F4172;
+    color:#F1B4BB;
     border-radius: 10px;
     color:#F1B4BB;
 }
@@ -165,6 +180,7 @@ body {
     text-align: center;
     border: 4px solid #F1B4BB;
     background-color: #1F4172;
+    color:#F1B4BB;
     border-radius: 10px;
     color:#F1B4BB;
 }
