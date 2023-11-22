@@ -16,7 +16,7 @@ app.static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'st
 
 def predict_image(file):
     try:
-        model = YOLO('../1114data2.pt')
+        model = YOLO('1114data2.pt')
         image = Image.open(file)
         results = model(image)
         img_array = results[0].orig_img
