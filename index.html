@@ -44,9 +44,10 @@
             
             </div>
             <div id="plus-button" style="display: none;">
-                <a onClick="window.location.reload()" class="plus-button">
-                    <img src="/static/youtube.png" size="24px"/>
-                </a> 
+                <a id="plus-link" class="plus-button">
+                    <!-- 이미지를 표시할 이미지 태그 -->
+                    <img id="plus-image" src="" sizes="24px" alt="Disease Link Image">
+                </a>
             </div>
         </div>
         <script>
@@ -81,6 +82,7 @@
                 var refreshButton = document.getElementById('refresh-button');
                 var plusButton = document.getElementById('plus-button');
 
+
                 imagePreview.style.display = 'none';
                 buttonContainer.style.display = 'none';
                 refreshButton.style.display = 'none';
@@ -91,14 +93,16 @@
                 var formData = new FormData();
                 formData.append('file', file);
 
-                // fetch('http://localhost:5000/upload', {
-                //     method: 'POST',
-                //     body: formData
-                // })
-                fetch('https://graduation-work-eight.vercel.app/upload', {
+                
+
+                fetch('http://localhost:5000/upload', {
                     method: 'POST',
                     body: formData
                 })
+                // fetch('https://graduation-work-eight.vercel.app/upload', {
+                //     method: 'POST',
+                //     body: formData
+                // })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data.result);
@@ -127,6 +131,40 @@
                         p.innerHTML = data.result;
                         resultDiv.appendChild(p);
                     }
+
+                    switch(data.result[0].class){
+                        case '여드름':
+                            plusButton.querySelector('#plus-link').href = 'https://www.example.com/acne-link';
+                            plusButton.querySelector('#plus-image').src = '/static/youtube.png';
+                            break;
+                        case '모공각화증':
+                            plusButton.querySelector('#plus-link').href = 'https://www.naver.com/';
+                            plusButton.querySelector('#plus-image').src = '/static/youtube.png';
+                            break;
+                        case '습진':
+                            plusButton.querySelector('#plus-link').href = 'https://entertain.naver.com/home';
+                            plusButton.querySelector('#plus-image').src = '/static/youtube.png';
+                            break;
+                        case '일반 피부':
+                            plusButton.querySelector('#plus-link').href = 'https://sports.news.naver.com/kbaseball/index';
+                            plusButton.querySelector('#plus-image').src = '/static/youtube.png';
+                            break;
+                        case '대상포진':
+                            plusButton.querySelector('#plus-link').href = 'https://www.youtube.com/';
+                            plusButton.querySelector('#plus-image').src = '/static/youtube.png';
+                            break;
+                        case '건선':
+                            plusButton.querySelector('#plus-link').href = 'https://www.github.com/';
+                            plusButton.querySelector('#plus-image').src = '/static/youtube.png';
+                            break;
+                        case '백선증':
+                            plusButton.querySelector('#plus-link').href = 'https://music.youtube.com/';
+                            plusButton.querySelector('#plus-image').src = '/static/youtube.png';
+                            break;                 
+                        default:
+                            plusButton.querySelector('#plus-link').href = 'https://bhlog.tistory.com/127#google_vignette';
+                            plusButton.querySelector('#plus-image').src = '/static/youtube.png';
+        }
                     switch(data.result[0].class){
                         case '여드름' : 
                             var p = document.createElement('p');
