@@ -1,2 +1,29 @@
 [build]
-  functions = "functions"
+  functions = "functions"  # Netlify Functions의 디렉토리 지정
+  command = "python app.py"  # Python 애플리케이션을 실행하는 커맨드
+
+[[redirects]]
+  from = "/api/*"  # /api/*로 들어오는 모든 요청은 Netlify Functions로 라우팅
+  to = "/.netlify/functions/:splat"
+  status = 200  # OK 상태로 반환
+
+[[headers]]
+  for = "/*"
+    [headers.values]
+      Access-Control-Allow-Origin = "*"  # CORS 설정, 실제 프로덕션에서는 '*'을 특정 도메인으로 변경하세요.
+      Content-Security-Policy = "frame-ancestors 'self'"  # 보안 정책 설정
+
+[[headers]]
+  for = "/static/*"
+    [headers.values]
+      Cache-Control = "public, max-age=86400"  # 정적 리소스 캐싱 설정
+
+[[headers]]
+  for = "/sw.js"
+    [headers.values]
+      Cache-Control = "public, max-age=0, must-revalidate"  # Service Worker는 캐시를 항상 다시 확인
+
+[[headers]]
+  for = "/api/*"
+    [headers.values]
+      Cache-Control = "public, max-age=0, must-revalidate"  # API 엔드포인트는 항상 캐시를 다시 확인
