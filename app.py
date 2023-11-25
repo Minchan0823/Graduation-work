@@ -35,23 +35,23 @@ def predict_image(file):
             class_name = names[class_id]
 
             if class_name == '0' :
-                name = 'ace'
+                name = 'acne'
             elif class_name == '1' :
-                name = '모공각화증'
+                name = 'Keratosis pilaris'
             elif class_name == '2' :
-                name = '습진'
+                name = 'eczema'
             elif class_name == '3' :
-                name = '일반 피부'
+                name = 'normal skin'
             elif class_name == '4' :
-                name = '대상포진'
+                name = 'shingles'
             elif class_name == '5' :
-                name = '건선'
+                name = 'psoriasis'
             elif class_name == '6' :
-                name = '백선증'
+                name = 'ringworm'
             elif class_name == '7' :
-                name = '사마귀'
+                name = 'wart'
             else:
-                name = '에러'
+                name = 'error'
 
             text = f"{class_name}-{round(conf, 2)*100}%"
             print(text)
