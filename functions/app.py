@@ -57,7 +57,6 @@ def predict_image(file):
             print(text)
             cv2.rectangle(img_array, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
             cv2.putText(img_array, text, (xmin, ymin - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-            cv2.waitKey(0)
             # 예측된 이미지를 Base64로 인코딩
             _, img_encoded = cv2.imencode('.png', img_array)
             img_base64 = base64.b64encode(img_encoded).decode('utf-8')
