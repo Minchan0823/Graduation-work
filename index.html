@@ -95,15 +95,15 @@
 
                 
 
-                // fetch('http://localhost:5000/upload', {
-                //     method: 'POST',
-                //     body: formData
-                // })
-                fetch('https://graduation-work-umber.vercel.app/upload', {
-                    method: 'POST',
-                    body: formData,
-                    mode: 'cors'
-                })
+                fetch('http://localhost:5000/upload', {
+                     method: 'POST',
+                     body: formData
+                 })
+                //fetch('https://graduation-work-umber.vercel.app/upload', {
+                //    method: 'POST',
+                //    body: formData,
+                //    mode: 'cors'
+                //})
                 .then(response => response.json())
                 .then(data => {
                     console.log(data.result);
