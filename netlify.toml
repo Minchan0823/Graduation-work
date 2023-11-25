@@ -1,6 +1,6 @@
 [build]
   functions = "functions"  # Netlify Functions의 디렉토리 지정
-  command = "python app.py"  # Python 애플리케이션을 실행하는 커맨드
+  command = "python functions/app.py"  # Python 애플리케이션을 실행하는 커맨드
 
 [[redirects]]
   from = "/api/*"  # /api/*로 들어오는 모든 요청은 Netlify Functions로 라우팅
