@@ -35,7 +35,7 @@ def predict_image(file):
             class_name = names[class_id]
 
             if class_name == '0' :
-                name = '여드름'
+                name = 'ace'
             elif class_name == '1' :
                 name = '모공각화증'
             elif class_name == '2' :
