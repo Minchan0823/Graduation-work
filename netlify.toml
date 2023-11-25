@@ -27,3 +27,7 @@
   for = "/api/*"
     [headers.values]
       Cache-Control = "public, max-age=0, must-revalidate"  # API 엔드포인트는 항상 캐시를 다시 확인
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/app"
+  status = 200
