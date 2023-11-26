@@ -43,7 +43,7 @@ def predict_image(file):
             elif class_name == '3' :
                 name = 'normal skin'
             elif class_name == '4' :
-                name = 'shingles'
+                name = 'leprosy'
             elif class_name == '5' :
                 name = 'psoriasis'
             elif class_name == '6' :
