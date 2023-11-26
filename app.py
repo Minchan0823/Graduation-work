@@ -16,7 +16,7 @@ app.static_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'st
 
 def predict_image(file):
     try:
-        model = YOLO('1114data2.pt')
+        model = YOLO('best.pt')
         image = Image.open(file)
         results = model(image)
         img_array = results[0].orig_img
@@ -35,29 +35,28 @@ def predict_image(file):
             class_name = names[class_id]
 
             if class_name == '0' :
-                name = '여드름'
+                name = 'acne'
             elif class_name == '1' :
-                name = '모공각화증'
+                name = 'Keratosis pilaris'
             elif class_name == '2' :
-                name = '습진'
+                name = 'eczema'
             elif class_name == '3' :
-                name = '일반 피부'
+                name = 'normal skin'
             elif class_name == '4' :
-                name = '대상포진'
+                name = 'shingles'
             elif class_name == '5' :
-                name = '건선'
+                name = 'psoriasis'
             elif class_name == '6' :
-                name = '백선증'
+                name = 'ringworm'
             elif class_name == '7' :
-                name = '사마귀'
+                name = 'wart'
             else:
-                name = '에러'
+                name = 'error'
 
             text = f"{class_name}-{round(conf, 2)*100}%"
             print(text)
             cv2.rectangle(img_array, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
             cv2.putText(img_array, text, (xmin, ymin - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-            cv2.waitKey(0)
             # 예측된 이미지를 Base64로 인코딩
             _, img_encoded = cv2.imencode('.png', img_array)
             img_base64 = base64.b64encode(img_encoded).decode('utf-8')
